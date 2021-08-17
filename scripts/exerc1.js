@@ -5,7 +5,6 @@ const parsedStatement = statement.match(regexp);
 const tableName = parsedStatement[1];
 let columns = parsedStatement[2];
 columns = columns.split(", ");
-console.log(parsedStatement);
-console.log(tableName);
+console.log(`Table name: ${tableName}`);
 console.log(columns);
 
