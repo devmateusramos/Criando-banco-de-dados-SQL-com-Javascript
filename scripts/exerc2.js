@@ -13,5 +13,19 @@ const parsedStatement = statement.match(regexp);
 const tableName = parsedStatement[1];
 let columns = parsedStatement[2];
 columns = columns.split(", ");
-console.log(tableName);
-console.log(columns);
+const database = {
+    tables: {
+        [tableName]:{
+            columns:{}
+        }
+    }
+};
+for (let column of columns){
+    column = column.split(" ");/*  poderia caso não tivesse posto split lá em columns com ", " e sim só a ",", só passar column.trim.split(" ") q daria certo */
+    const name = column[0];
+    const type = column[1];
+    database.tables[tableName].columns[name] = type;
+}
+
+console.log(database);/* Não dá uma boa exibição por isso podemos usar oJSON pra exibir melhor */
+console.log(JSON.stringify(database, undefined, " "));
