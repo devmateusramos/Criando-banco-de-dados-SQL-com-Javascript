@@ -28,9 +28,12 @@ const database = {
             this.tables[tableName].columns[name] = type;
         }
 
+    },
+    execute(statement) {
+        return this.createTable(statement);
     }
 };
-database.createTable("create table author (id number, name string, age number, city string, state string, country string)");
+database.execute("create table author (id number, name string, age number, city string, state string, country string)");
 
 // console.log(database);/* Não dá uma boa exibição por isso podemos usar oJSON pra exibir melhor */
 console.log(JSON.stringify(database, undefined, " "));
