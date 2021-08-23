@@ -1,9 +1,13 @@
-const book1 = {
-    name: "12 hábitos do programador eficiente",
-    author: "Zeno Rocha"
-};
-const book2 = JSON.parse(JSON.stringify(book1));
+const _instanceof = function (obj, fn) {
+    if (obj === fn.prototype) return true;
+    if(obj === null) return false;
+    return _instanceof(obj.__proto__, fn)
+}
+const date = new Date();
+console.log(date instanceof Date);
+console.log(date instanceof Object);
+console.log(date instanceof Array);
 
-console.log(book2 === book1);
-console.log(book2);
-console.log(JSON.stringify(book1) === JSON.stringify(book2));
+console.log(_instanceof (date, Date));
+console.log(_instanceof (date, Object));
+console.log(_instanceof (date, Array));
