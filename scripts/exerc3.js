@@ -30,7 +30,9 @@ const database = {
 
     },
     execute(statement) {
+        if (statement.startsWith("create table")) {
         return this.createTable(statement);
+        }
     }
 };
 database.execute("create table author (id number, name string, age number, city string, state string, country string)");
