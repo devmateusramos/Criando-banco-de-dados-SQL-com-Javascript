@@ -25,9 +25,12 @@ const database = {
 
     },
     insert(statement){
-        const regexp = /insert into ([a-z]+)/;
+        const regexp = /insert into ([a-z]+) \((.+)\) values \((.+)\)/;
         const parsedStatement = statement.match(regexp);
-        console.log(parsedStatement)
+        let [, tableName, columns, values] = parsedStatement;
+        columns = columns.split(", ")
+        values = values.split(", ")
+        console.log(tableName, columns, values)
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
