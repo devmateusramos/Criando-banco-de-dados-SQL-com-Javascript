@@ -9,17 +9,15 @@ const database = {
        
         const regexp = /create table ([a-z]+) \((.+)\)/;
         const parsedStatement = statement.match(regexp);
-        const tableName = parsedStatement[1];
+        let [,tableName, columns] = parsedStatement;
         this.tables[tableName]={
             columns:{},
             data: []
         };
-        let columns = parsedStatement[2];
         columns = columns.split(", ");
         for (let column of columns){
             column = column.split(" ");/*  poderia caso não tivesse posto split lá em columns com ", " e sim só a ",", só passar column.trim.split(" ") q daria certo */
-            const name = column[0];
-            const type = column[1];
+            const [name, type] = column;
             this.tables[tableName].columns[name] = type;
         }
 
