@@ -32,7 +32,9 @@ const database = {
         values = values.split(", ");
         let row = {};
         for (let i = 0; i < columns.length; i++) {
-            console.log(columns[i], values[i])
+            const column = columns[i];
+            const value = values[i];
+            row[column] = value;
         }
         console.log(row);
     },
