@@ -12,7 +12,7 @@ const database = {
         const tableName = parsedStatement[1];
         this.tables[tableName]={
             columns:{},
-            data: {}
+            data: []
         };
         let columns = parsedStatement[2];
         columns = columns.split(", ");
@@ -36,7 +36,7 @@ const database = {
             const value = values[i];
             row[column] = value;
         }
-        console.log(row);
+        this.tables[tableName].data.push(row)
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
@@ -54,7 +54,7 @@ try{
     database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)");
     database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
     database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
-    // console.log(JSON.stringify(database, undefined, " "));
+    console.log(JSON.stringify(database, undefined, " "));
     
 } catch(e){
     console.log(e)
