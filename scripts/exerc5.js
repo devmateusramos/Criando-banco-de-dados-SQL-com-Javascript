@@ -25,11 +25,16 @@ const database = {
 
     },
     insert(statement){
-        
+        const regexp = /insert into ([a-z]+)/;
+        const parsedStatement = statement.match(regexp);
+        console.log(parsedStatement)
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
         return this.createTable(statement);
+        }
+        if (statement.startsWith("insert")) {
+            return this.insert(statement);
         }
         const message = `Syntax Error "${statement}"`
         throw new DatabaseError(statement, message)
@@ -40,7 +45,7 @@ try{
     database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)");
     database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
     database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
-    console.log(JSON.stringify(database, undefined, " "));
+    // console.log(JSON.stringify(database, undefined, " "));
     
 } catch(e){
     console.log(e)
