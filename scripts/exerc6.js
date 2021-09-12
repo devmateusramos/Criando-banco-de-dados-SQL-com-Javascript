@@ -37,6 +37,9 @@ const database = {
         this.tables[tableName].data.push(row)
     },
     select(statement){
+        const regexp = /select (.+) from ([a-z]+)/;
+        const parsedStatement =statement.match(regexp);
+        console.log(parsedStatement);
         return [];
     },
     execute(statement) {
