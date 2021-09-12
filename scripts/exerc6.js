@@ -41,13 +41,14 @@ const database = {
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName] = parsedStatement //já criando direto com destructurings
         columns = columns.split(", ");
-        console.log(columns)
         let rows = this.tables[tableName].data
         rows = rows.map(function (row){
             let selectedRow = {};
+            columns.forEach(function (column) {
+                selectedRow[column] = row[column];
+            })
             return selectedRow;
         })
-        console.log(columns, tableName);
         return rows;
     },
     execute(statement) {
