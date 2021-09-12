@@ -62,6 +62,10 @@ const database = {
         const parsedStatement = statement.match(regexp);
         let [, tableName, whereClause] = parsedStatement;
         console.log(tableName, whereClause)
+        let [columnWhere, valueWhere] = whereClause.split(" = ");
+        this.tables[tableName].data = this.tables[tableName].data.filter(function(row){
+            return row[columnWhere] !== valueWhere;
+        });
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
