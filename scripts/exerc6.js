@@ -37,15 +37,17 @@ const database = {
         this.tables[tableName].data.push(row)
     },
     select(statement){
-        const regexp = /select (.+) from ([a-z]+) where (.+)/;
-        const parsedStatement =statement.match(regexp);
+        const regexp = /select (.+) from ([a-z]+) (?:where (.+))?/;  // o primeiro ?: do lado do where significa q isso não é um grupo de captura, enquanto o segundo depois do where "?" está dizendo q ele é opcional assim se não for executado com where o código não vai quebrar por isso.
+        const parsedStatement = statement.match(regexp);
         let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
-        const [columnWhere, valueWhere] = whereClause.split(" = ")
         columns = columns.split(", ");
         let rows = this.tables[tableName].data
+        if (whereClause) {
+        const [columnWhere, valueWhere] = whereClause.split(" = ")
         rows = rows.filter(function(row){
-            return row[columnWhere] === valueWhere
-        })
+            return row[columnWhere] === valueWhere;
+        });
+        }
         rows = rows.map(function (row){
             let selectedRow = {};
             columns.forEach(function (column) {
@@ -74,8 +76,9 @@ try{
     database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)");
     database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
     database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
+    console.log(JSON.stringify(database.execute("select name, age from author "), undefined, " "));// POR ALGUM MOTIVO QUE NÃO FAÇO IDEIA NÃO TER ESSE ESPAÇO DEPOIS DO AUTHOR QUEBRA O CÓDIGO?????!!!
     console.log(JSON.stringify(database.execute("select name, age from author where id = 1"), undefined, " "));
-    
+
 } catch(e){
     console.log(e)
 }
