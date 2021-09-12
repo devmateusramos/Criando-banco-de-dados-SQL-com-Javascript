@@ -40,8 +40,9 @@ const database = {
         const regexp = /select (.+) from ([a-z]+)/;
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName] = parsedStatement //já criando direto com destructurings
+        let rows = this.tables[tableName].data
         console.log(columns, tableName);
-        return [];
+        return rows;
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
