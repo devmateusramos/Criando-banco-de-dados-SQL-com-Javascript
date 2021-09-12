@@ -37,7 +37,7 @@ const database = {
         this.tables[tableName].data.push(row)
     },
     select(statement){
-
+        return [];
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
