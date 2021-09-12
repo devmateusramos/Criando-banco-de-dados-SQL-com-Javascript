@@ -40,6 +40,8 @@ const database = {
         const regexp = /select (.+) from ([a-z]+)/;
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName] = parsedStatement //já criando direto com destructurings
+        columns = columns.split(", ");
+        console.log(columns)
         let rows = this.tables[tableName].data
         rows = rows.map(function (row){
             let selectedRow = {};
