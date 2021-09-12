@@ -41,6 +41,10 @@ const database = {
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName] = parsedStatement //já criando direto com destructurings
         let rows = this.tables[tableName].data
+        rows = rows.map(function (row){
+            let selectedRow = {};
+            return selectedRow;
+        })
         console.log(columns, tableName);
         return rows;
     },
