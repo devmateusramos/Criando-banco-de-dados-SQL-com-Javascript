@@ -37,7 +37,7 @@ const database = {
         this.tables[tableName].data.push(row)
     },
     select(statement){
-        const regexp = /select (.+) from ([a-z]+) (?:where (.+))?/;  // o primeiro ?: do lado do where significa q isso não é um grupo de captura, enquanto o segundo depois do where "?" está dizendo q ele é opcional assim se não for executado com where o código não vai quebrar por isso.
+        const regexp = /select (.+) from ([a-z]+)(?: where (.+))?/;  // o primeiro ?: do lado do where significa q isso não é um grupo de captura, enquanto o segundo depois do where "?" está dizendo q ele é opcional assim se não for executado com where o código não vai quebrar por isso.
         const parsedStatement = statement.match(regexp);
         let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
         columns = columns.split(", ");
@@ -58,14 +58,18 @@ const database = {
         return rows;
     },
     delete(statement){
-        const regexp = /delete from ([a-z]+) where (.+)/;
+        const regexp = /delete from ([a-z]+)(?: where (.+))?/;
         const parsedStatement = statement.match(regexp);
         let [, tableName, whereClause] = parsedStatement;
-        console.log(tableName, whereClause)
+        console.log(whereClause)
+        if (whereClause) {
         let [columnWhere, valueWhere] = whereClause.split(" = ");
         this.tables[tableName].data = this.tables[tableName].data.filter(function(row){
             return row[columnWhere] !== valueWhere;
         });
+        } else {
+        this.tables[tableName].data = [];
+        }
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
@@ -90,8 +94,8 @@ try{
     database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
     database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
     database.execute("delete from author where id = 2");
-    console.log(JSON.stringify(database.execute("select name, age from author "), undefined, " "));// POR ALGUM MOTIVO QUE NÃO FAÇO IDEIA NÃO TER ESSE ESPAÇO DEPOIS DO AUTHOR QUEBRA O CÓDIGO?????!!!
-
+    console.log(JSON.stringify(database.execute("select name, age from author"), undefined, " "));// O FATO DO AUTHOR TER Q TER ESPAÇO ERA UM ESPAÇO A MAIS NA REGEXP Q QND REMOVIDO QUEBRAVA PORQUE SÓ APÓS REMOVER PODIA POR UM DPS DO ?: SEM QUEBRAR TAMBÉM.
+    
 } catch(e){
     console.log(e)
 }
