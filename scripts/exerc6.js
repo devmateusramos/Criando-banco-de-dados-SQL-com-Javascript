@@ -39,7 +39,8 @@ const database = {
     select(statement){
         const regexp = /select (.+) from ([a-z]+)/;
         const parsedStatement =statement.match(regexp);
-        console.log(parsedStatement);
+        let [, columns, tableName] = parsedStatement //já criando direto com destructurings
+        console.log(columns, tableName);
         return [];
     },
     execute(statement) {
