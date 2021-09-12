@@ -37,9 +37,10 @@ const database = {
         this.tables[tableName].data.push(row)
     },
     select(statement){
-        const regexp = /select (.+) from ([a-z]+)/;
+        const regexp = /select (.+) from ([a-z]+) where (.+)/;
         const parsedStatement =statement.match(regexp);
-        let [, columns, tableName] = parsedStatement //já criando direto com destructurings
+        let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
+        console.log(whereClause)
         columns = columns.split(", ");
         let rows = this.tables[tableName].data
         rows = rows.map(function (row){
@@ -70,7 +71,7 @@ try{
     database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)");
     database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
     database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
-    console.log(JSON.stringify(database.execute("select id, name, age from author"), undefined, " "));
+    console.log(JSON.stringify(database.execute("select name, age from author where id = 1"), undefined, " "));
     
 } catch(e){
     console.log(e)
