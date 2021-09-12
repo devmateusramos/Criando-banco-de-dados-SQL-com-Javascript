@@ -41,9 +41,11 @@ const database = {
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
         const [columnWhere, valueWhere] = whereClause.split(" = ")
-        console.log(columnWhere, valueWhere)
         columns = columns.split(", ");
         let rows = this.tables[tableName].data
+        rows = rows.filter(function(row){
+            return row[columnWhere] === valueWhere
+        })
         rows = rows.map(function (row){
             let selectedRow = {};
             columns.forEach(function (column) {
