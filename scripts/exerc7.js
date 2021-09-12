@@ -58,7 +58,9 @@ const database = {
         return rows;
     },
     delete(statement){
-        console.log(statement)
+        const regexp = /delete from ([a-z]+) where (.+)/;
+        const parsedStatement = statement.match(regexp);
+        console.log(parsedStatement)
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
