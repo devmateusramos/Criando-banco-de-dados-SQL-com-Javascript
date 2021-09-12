@@ -40,7 +40,8 @@ const database = {
         const regexp = /select (.+) from ([a-z]+) where (.+)/;
         const parsedStatement =statement.match(regexp);
         let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
-        console.log(whereClause)
+        const [columnWhere, valueWhere] = whereClause.split(" = ")
+        console.log(columnWhere, valueWhere)
         columns = columns.split(", ");
         let rows = this.tables[tableName].data
         rows = rows.map(function (row){
