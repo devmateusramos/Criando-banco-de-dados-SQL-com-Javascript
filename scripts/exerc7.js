@@ -60,7 +60,8 @@ const database = {
     delete(statement){
         const regexp = /delete from ([a-z]+) where (.+)/;
         const parsedStatement = statement.match(regexp);
-        console.log(parsedStatement)
+        let [, tableName, whereClause] = parsedStatement;
+        console.log(tableName, whereClause)
     },
     execute(statement) {
         if (statement.startsWith("create table")) {
