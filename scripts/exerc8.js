@@ -23,10 +23,7 @@ const Parser = function() {
 const database = {
     tables: {},
     parser: new Parser(),
-    createTable(statement) {// uma coisa interessante a se perceber aqui é q o JSON n exibe funções, pra ver q essa função foi criado tem q dar um console.log database
-       
-        const regexp = /create table ([a-z]+) \((.+)\)/;
-        const parsedStatement = statement.match(regexp);
+    createTable(parsedStatement) {
         let [,tableName, columns] = parsedStatement;
         this.tables[tableName]={
             columns:{},
@@ -40,9 +37,7 @@ const database = {
         }
 
     },
-    insert(statement){
-        const regexp = /insert into ([a-z]+) \((.+)\) values \((.+)\)/;
-        const parsedStatement = statement.match(regexp);
+    insert(parsedStatement){
         let [, tableName, columns, values] = parsedStatement;
         columns = columns.split(", ");
         values = values.split(", ");
@@ -54,9 +49,7 @@ const database = {
         }
         this.tables[tableName].data.push(row)
     },
-    select(statement){
-        const regexp = /select (.+) from ([a-z]+)(?: where (.+))?/;  // o primeiro ?: do lado do where significa q isso não é um grupo de captura, enquanto o segundo depois do where "?" está dizendo q ele é opcional assim se não for executado com where o código não vai quebrar por isso.
-        const parsedStatement = statement.match(regexp);
+    select(parsedStatement){
         let [, columns, tableName, whereClause] = parsedStatement //já criando direto com destructurings
         columns = columns.split(", ");
         let rows = this.tables[tableName].data
@@ -75,11 +68,8 @@ const database = {
         })
         return rows;
     },
-    delete(statement){
-        const regexp = /delete from ([a-z]+)(?: where (.+))?/;
-        const parsedStatement = statement.match(regexp);
+    delete(parsedStatement){
         let [, tableName, whereClause] = parsedStatement;
-        console.log(whereClause)
         if (whereClause) {
         let [columnWhere, valueWhere] = whereClause.split(" = ");
         this.tables[tableName].data = this.tables[tableName].data.filter(function(row){
@@ -90,17 +80,9 @@ const database = {
         }
     },
     execute(statement) {
-        if (statement.startsWith("create table")) {
-        return this.createTable(statement);
-        }
-        if (statement.startsWith("insert")) {
-            return this.insert(statement);
-        }
-        if (statement.startsWith("select")) {
-            return this.select(statement);
-        }
-        if (statement.startsWith("delete")) {
-            return this.delete(statement);
+        const result = this.parser.parse(statement);
+        if (result) {
+            return this[result.command](result.parsedStatement);
         }
         const message = `Syntax Error "${statement}"`
         throw new DatabaseError(statement, message)
