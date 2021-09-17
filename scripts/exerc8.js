@@ -2,9 +2,27 @@ const DatabaseError = function(statement, message){
     this.statement = statement;
     this.message = message;
 };
-
+const Parser = function() {
+    const commands = new Map();
+    commands.set("createTable", /create table ([a-z]+) \((.+)\)/);
+    commands.set("insert", /insert into ([a-z]+) \((.+)\) values \((.+)\)/);
+    commands.set("select", /select (.+) from ([a-z]+)(?: where (.+))?/);
+    commands.set("delete", /delete from ([a-z]+)(?: where (.+))?/);
+    this.parse = function(statement) {
+        for(let [command, regexp] of commands) {
+            const parsedStatement = statement.match(regexp);
+            if(parsedStatement) {
+                return {
+                    command, // usando aqui a short range notation oq equivale há command: command,
+                    parsedStatement
+                }
+            }
+        }
+    };
+};
 const database = {
     tables: {},
+    parser: new Parser(),
     createTable(statement) {// uma coisa interessante a se perceber aqui é q o JSON n exibe funções, pra ver q essa função foi criado tem q dar um console.log database
        
         const regexp = /create table ([a-z]+) \((.+)\)/;
