@@ -1,7 +1,11 @@
-const languages = ["Javascript", "Python", "Dart"]
-const languagesSecond =["Golang", "Java", "PHP", "C#"];
-const languagesTotal= languages.concat(languagesSecond)
-const languagesArray = languagesTotal.join(", ")
-console.log(languagesArray)
-console.log(languages)
-console.log(languagesSecond)
+const languagesPrimeiras = new Map([["Python", 1], ["Javascript", 1], ["Golang", 1], ["Dart",1], ["Typescript", 1], ["Java", 2], ["C#", 2]])
+const iterator = languagesPrimeiras[Symbol.iterator]();
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
+console.log(iterator.next())
