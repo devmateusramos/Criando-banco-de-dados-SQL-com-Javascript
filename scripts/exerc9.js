@@ -4,14 +4,17 @@ class DatabaseError {
         this.message = message;
     }
 }
-const Parser = function() {
-    const commands = new Map();
-    commands.set("createTable", /create table ([a-z]+) \((.+)\)/);
-    commands.set("insert", /insert into ([a-z]+) \((.+)\) values \((.+)\)/);
-    commands.set("select", /select (.+) from ([a-z]+)(?: where (.+))?/);
-    commands.set("delete", /delete from ([a-z]+)(?: where (.+))?/);
-    this.parse = function(statement) {
-        for(let [command, regexp] of commands) {
+class Parser {
+    constructor() {
+        this.commands = new Map();
+        this.commands.set("createTable", /create table ([a-z]+) \((.+)\)/);
+        this.commands.set("insert", /insert into ([a-z]+) \((.+)\) values \((.+)\)/);
+        this.commands.set("select", /select (.+) from ([a-z]+)(?: where (.+))?/);
+        this.commands.set("delete", /delete from ([a-z]+)(?: where (.+))?/);
+    }    
+
+    parse(statement) {
+        for(let [command, regexp] of this.commands) {
             const parsedStatement = statement.match(regexp);
             if(parsedStatement) {
                 return {
@@ -20,8 +23,8 @@ const Parser = function() {
                 }
             }
         }
-    };
-};
+    }
+} 
 const database = {
     tables: {},
     parser: new Parser(),
