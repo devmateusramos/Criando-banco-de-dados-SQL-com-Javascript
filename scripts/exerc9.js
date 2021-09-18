@@ -1,7 +1,9 @@
-const DatabaseError = function(statement, message){
-    this.statement = statement;
-    this.message = message;
-};
+class DatabaseError {
+    constructor(statement, message) {
+        this.statement = statement;
+        this.message = message;
+    }
+}
 const Parser = function() {
     const commands = new Map();
     commands.set("createTable", /create table ([a-z]+) \((.+)\)/);
