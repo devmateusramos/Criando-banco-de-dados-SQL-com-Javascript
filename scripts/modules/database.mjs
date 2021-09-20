@@ -62,12 +62,16 @@
         }
     }
     execute(statement) {
-        setTimeout(function() {
-            const result = this.parser.parse(statement);
-        if (result) {
-            return this[result.command](result.parsedStatement);
-        }
-        const message = `Syntax Error: "${statement}"`
-        throw new DatabaseError(statement, message)
-        }, 1000);
+        return new Promise((resolve, reject) => {
+            setTimeout(()/* se n usar arrow function tem q em cima do setTimeout colocar um that = this e substituir os this por that */ => {
+                const result = this.parser.parse(statement);
+            if (result) {
+                resolve (this[result.command](result.parsedStatement));
+            }
+            const message = `Syntax Error: "${statement}"`
+            reject (new DatabaseError(statement, message));
+            }, 1000);
+        });
+        
     }
+}
