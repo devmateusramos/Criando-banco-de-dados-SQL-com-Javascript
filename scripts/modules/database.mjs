@@ -1,31 +1,6 @@
-class DatabaseError {
-    constructor(statement, message) {
-        this.statement = statement;
-        this.message = message;
-    }
-}
-class Parser {
-    constructor() {
-        this.commands = new Map();
-        this.commands.set("createTable", /create table ([a-z]+) \((.+)\)/);
-        this.commands.set("insert", /insert into ([a-z]+) \((.+)\) values \((.+)\)/);
-        this.commands.set("select", /select (.+) from ([a-z]+)(?: where (.+))?/);
-        this.commands.set("delete", /delete from ([a-z]+)(?: where (.+))?/);
-    }    
-
-    parse(statement) {
-        for(let [command, regexp] of this.commands) {
-            const parsedStatement = statement.match(regexp);
-            if(parsedStatement) {
-                return {
-                    command, // usando aqui a short range notation oq equivale há command: command,
-                    parsedStatement
-                }
-            }
-        }
-    }
-} 
-class Database {
+/* import {Parser} from "./parser"; */
+/* import {DatabaseError} from "./databaseError" // poderia usar só DatabaseError desde q colocasse export default no outro arquivo  */
+/* export */ class Database {
     constructor() {
     this.tables = {};
     this.parser = new Parser();
@@ -94,19 +69,4 @@ class Database {
         const message = `Syntax Error "${statement}"`
         throw new DatabaseError(statement, message)
     }
-}
-    
-    
-
-try{
-    database = new Database();
-    database.execute("create table author (id number, name string, age number, city string, state string, country string)");
-    database.execute("insert into author (id, name, age) values (1, Douglas Crockford, 62)");
-    database.execute("insert into author (id, name, age) values (2, Linus Torvalds, 47)");
-    database.execute("insert into author (id, name, age) values (3, Martin Fowler, 54)");
-    database.execute("delete from author where id = 2");
-    console.log(JSON.stringify(database.execute("select name, age from author"), undefined, " "));// O FATO DO AUTHOR TER Q TER ESPAÇO ERA UM ESPAÇO A MAIS NA REGEXP Q QND REMOVIDO QUEBRAVA PORQUE SÓ APÓS REMOVER PODIA POR UM DPS DO ?: SEM QUEBRAR TAMBÉM.
-    
-} catch(e){
-    console.log(e)
 }
