@@ -62,11 +62,12 @@
         }
     }
     execute(statement) {
-        const result = this.parser.parse(statement);
+        setTimeout(function() {
+            const result = this.parser.parse(statement);
         if (result) {
             return this[result.command](result.parsedStatement);
         }
-        const message = `Syntax Error "${statement}"`
+        const message = `Syntax Error: "${statement}"`
         throw new DatabaseError(statement, message)
+        }, 1000);
     }
-}

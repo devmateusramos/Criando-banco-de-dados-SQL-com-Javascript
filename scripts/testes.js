@@ -1,12 +1,23 @@
-class Circle {
-    constructor(radius) {
-        this.radius = radius;
-    }
-
-    get area() {
-        return Math.PI * Math.pow(this.radius, 2);
-    }
+function sum(a, b) {
+    return new Promise(function(resolve, reject) {
+        if(!a || !b) return reject("Invalid input");
+        setTimeout(function(){
+            resolve(a + b);
+        }, Math.random() * 1000);
+    })
+    
 }
-
-const circle = Circle(10);
-console.log(circle)
+console.time("Performance")
+Promise.race([
+    sum(2,2),
+    sum(4,4)
+]).then(function(value) {
+    console.log(value);
+    return sum(value, value).then(function(result) {
+        console.log(result);
+        console.timeEnd("Performance")
+    })
+    
+}).catch(function(e){
+    console.log(e);
+})
