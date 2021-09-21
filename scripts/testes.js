@@ -3,21 +3,24 @@ function sum(a, b) {
         if(!a || !b) return reject("Invalid input");
         setTimeout(function(){
             resolve(a + b);
-        }, Math.random() * 1000);
-    })
-    
+        }, 1000);
+    });
 }
-console.time("Performance")
-Promise.race([
-    sum(2,2),
-    sum(4,4)
-]).then(function(value) {
-    console.log(value);
-    return sum(value, value).then(function(result) {
-        console.log(result);
-        console.timeEnd("Performance")
-    })
-    
-}).catch(function(e){
-    console.log(e);
-})
+(async function() {
+    try{
+    const functions = [
+        sum(2, 2),
+        sum(4, 4)
+    ];
+    const results = [];
+    for await (let result of functions) {
+        results.push(result);
+    };
+    const [a, b] = results; 
+    const result = await sum(a, b);
+    console.log(result);
+    } catch(e) {
+        console.log(e);
+    }
+})();
+
