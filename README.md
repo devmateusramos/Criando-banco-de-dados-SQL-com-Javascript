@@ -1,3 +1,5 @@
-# Masterclass-javascript
+# Criação de um banco de dados SQL com javascript
 
-Vou estar deixando aqui meus exercícios e aprendizados ao longo do masterclass, esse com foco em dominar os conceitos e história do javascript com mais profundidade. Os exercício estão na pasta script.
+Aqui estão algumas anotações onde fui aprendendo sobre a linguagem nos arquivos testes e não acredito que vão conseguir entender algo dando uma olhada por lá, os arquivos para o banco de dados SQL estão na pasta script em que eu linkei com um index.html para ver os resultados no console.log enquanto fazia os mesmos, mas podem ser vistos utilizando o nodejs e nesse caso pode descomentar a parte de modules, que não funcionou para mim quando fiz utilizando o html mas ficou feito e pronto para utilizar o node.js.
+
+O banco de dados SQL foi feito durante um masterclass de javascript ministrado pelo professor Rodrigo Branas ao longo de 11 a 12 exercícios, então os scripts que estão com nome "exerc1", "exerc2" etc são apenas passos da construção final para o banco de dados enquanto fui aprendendo e me aprofundando nos conceitos da linguagem para implementar e refatorar os códigos ao longo do masterclass concluindo o banco de dados. Os arquivos finais do banco de dados estão dentro da pasta script na pasta modules.
